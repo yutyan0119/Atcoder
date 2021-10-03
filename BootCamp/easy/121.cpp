@@ -12,4 +12,5 @@ int main(){
   else {
     cout << "No" << endl;
   }
+  #ヌルゲー
 }
