@@ -1,25 +1,17 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-
 int main(){
-  int N,x;
-  cin >> N >> x;
-  int a[N];
-  for (int i = 0; i < N; i++)
-  {
-    cin >> a[i];
+  int n,x,a[101],A=0;
+  std::cin>>n>>x;
+  for(int i=0;i<n; i++){
+    std::cin>>a[i];
   }
-  sort(a, a+N);
-  int cur = x;
-  int count = 0;
-  int i = 0;
-  while (cur >= 0 && i < N)
-  { cur = cur - a[i];
-    if (cur >= 0){
-      count ++;
-      i++;
-    }
-    else break;
+  std::sort(a,a+n);
+  for(int i=0;i<n-1;i++){
+    if(a[i]>x)break;
+    x-=a[i];
+    A++;
   }
-  cout << count << endl;
-}
+  std::cout<<(x-a[n-1]?A:A+1);
+  cout << endl;
+  }
