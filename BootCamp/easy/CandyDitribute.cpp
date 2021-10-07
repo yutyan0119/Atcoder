@@ -9,5 +9,17 @@ int main(){
   {
     cin >> a[i];
   }
-  
+  sort(a, a+N);
+  int cur = x;
+  int count = 0;
+  int i = 0;
+  while (cur >= 0 && i < N)
+  { cur = cur - a[i];
+    if (cur >= 0){
+      count ++;
+      i++;
+    }
+    else break;
+  }
+  cout << count << endl;
 }
