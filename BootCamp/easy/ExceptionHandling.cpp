@@ -23,6 +23,18 @@ bool chmax(T &a, const T& b) {
 
 /* ---------------------------------------------------*/
 
+#include <bits/stdc++.h>
+using namespace std;
+
 int main() {
-  
+    int N;
+    cin >> N;
+    vector<long long> A(N);
+    for (int i = 0; i < N; ++i) cin >> A[i];
+    auto A2 = A;
+    sort(A2.begin(), A2.end(), greater<long long>());
+    for (int i = 0; i < N; ++i) {
+        if (A[i] != A2[0]) cout << A2[0] << endl;
+        else cout << A2[1] << endl;
+    }
 }
