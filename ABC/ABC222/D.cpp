@@ -33,17 +33,17 @@ int main() {
   rep(i, 0, N) { cin >> b[i]; }
   vector<vector<ll>> dp(
       N, vector<ll>(3000, 0));  // i番目でjを選んだときのi番目の通り
+  vector <ll> Rui(3000,0);
   for (int i = 0; i < N; i++) {
     for (int j = a[i]; j <= b[i]; j++) {
       if (i == 0) {
         dp[i][j] = 1;
       } else {
-        for (int k = 0; k <= j; k++) {
-          dp[i][j] += dp[i - 1][k];
+          dp[i][j] = Rui[j];
           dp[i][j]%=MOD;
         }
+        Rui[j] += dp[i][j];
       }
-    }
   }
   ll sum = 0;
   for (int i = 0; i < 3000; i++) {
