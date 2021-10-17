@@ -33,17 +33,19 @@ int main() {
   rep(i, 0, N) { cin >> b[i]; }
   vector<vector<ll>> dp(
       N, vector<ll>(3000, 0));  // i番目でjを選んだときのi番目の通り
-  vector <ll> Rui(3000,0);
+  vector <ll> Rui(3000,0); //i-1番目のパターンの累積和
   for (int i = 0; i < N; i++) {
-    for (int j = a[i]; j <= b[i]; j++) {
-      if (i == 0) {
+    for (int j = 0; j < 3000; j++) {
+      if (i == 0 && j <= b[i] && a[i] <= j) {
         dp[i][j] = 1;
-      } else {
+      } else if (j <= b[i] && a[i] <=j) {
           dp[i][j] = Rui[j];
           dp[i][j]%=MOD;
+          printf("dp[%d][%d] = %d\n",i,j,dp[i][j]);
         }
-        Rui[j] += dp[i][j];
-      }
+      if (j == 0) Rui[j] = dp[i][j];
+      else Rui[j] = Rui[j-1] + dp[i][j];
+    }
   }
   ll sum = 0;
   for (int i = 0; i < 3000; i++) {
