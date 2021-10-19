@@ -24,15 +24,13 @@ bool chmax(T& a, const T& b) {
 /* ---------------------------------------------------*/
 
 int main() {
-  int N;
-  cin >> N;
-  vector<int> a(N);
-  for (int i = 0; i < N; i++) {
-    cin >> a[i];
+  string O, E;
+  cin >> O >> E;
+  for (int i = 0; i < (int)O.size(); ++i) {
+    cout << O.at(i);
+    if (!(i == (int)O.size() - 1 && O.size() > E.size())) {
+      cout << E.at(i);
+    }
   }
-   int cu = 1;
-    rep(i, 0, N) if (a[i] == cu) cu++;
-    
-    if (cu == 1) cout << -1 << endl;
-    else cout << N - cu + 1 << endl;
+  cout << endl;
 }
