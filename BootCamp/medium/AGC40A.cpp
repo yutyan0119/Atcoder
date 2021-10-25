@@ -28,7 +28,7 @@ typedef long long ll;
 int main() {
   string S;
   cin >> S;
-  int N = S.size() + 1;
+  int N = (int)S.size() + 1;
   vector<int> A(N, 0);
   for (int i = 0; i < N - 1; i++) {
     if (S[i] == '<') chmax(A[i + 1], A[i] + 1);
