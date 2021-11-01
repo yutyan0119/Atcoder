@@ -32,15 +32,11 @@ int main() {
   for (int i = 0; i < N; i++) {
     cin >> a[i];
   }
-  int count = 0;
-  for (int i = 1; i <= 100000; i++) {
-    int tmp = 0;
-    for (int j = 0; j < N; j++) {
-      if (a[j] == i || a[j] == i - 1 || a[j] == i + 1) {
-        tmp++;
-      }
-    }
-    chmax(count, tmp);
+  int count[100010] = {0};
+  for (int i = 0; i <N; i++) {
+    count[a[i]+1]++;
+    count[a[i]]++;
+    count[a[i]+2]++;
   }
-  cout << count << endl;
+  cout << *max_element(count,count+100010) << endl;
 }
