@@ -29,37 +29,28 @@ int main() {
   int H, W;
   cin >> H >> W;
   char s[H][W];
-  int count = 0;
   for (int i = 0; i < H; i++) {
     for (int j = 0; j < W; j++) {
       cin >> s[i][j];
     }
   }
-  if (s[0][0] == '#') {
-    s[0][0] = '.';
-    count++;
-  }
-  if (s[H - 1][W - 1] == '#') {
-    s[H - 1][W - 1] = '.';
-    count++;
-  }
-  int cury = 0;
-  int curx = 0;
-  while (curx != W - 1 || cury != H - 1) {
-    if (curx + 1 <= W - 1 && s[cury][curx + 1] == '.') {
-      curx++;
-    } else if (cury + 1 <= H - 1 && s[cury + 1][curx] == '.') {
-      cury++;
-    } else if (curx + 1 <= W - 1) {
-      s[cury][curx + 1] = '.';
-      curx++;
-      count++;
-    } else if (cury + 1 <= H - 1) {
-      s[cury + 1][curx] = '.';
-      cury++;
-      count++;
+  vector<int> dx = {1, 0};
+  vector<int> dy = {0, 1};
+  ll INF = 1LL<<60;
+
+  vector<vector<long long>> dp(H, vector<long long>(W, INF));  // dp[i][j]は(j,i)に到達するのに必要な塗り替えの最小回数
+  
+  dp[0][0] = (s[0][0] == '.' ? 0 : 1);
+  for (int i = 0; i < H; i++) {
+    for (int j = 0; j < W; j++) {
+      for (int dir = 0; dir < 2; ++dir) {
+        int ni = i + dx[dir], nj = j + dy[dir]; // 変位(1,0)または(0,1)
+        if (ni >= H || nj >= W) continue;
+        int add = 0;
+        if (s[ni][nj] == '#' && s[i][j] == '.') add = 1;
+        chmin(dp[ni][nj], dp[i][j] + add);
+      }
     }
   }
-  cout << count << endl;
-  // WA,dpを使ってやり直そう
+  cout << dp[H - 1][W - 1] << endl;
 }
