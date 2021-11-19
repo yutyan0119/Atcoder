@@ -20,41 +20,39 @@ bool chmax(T& a, const T& b) {
 }
 
 #define rep(i, s, e) for (int i = s; i < e; i++)
+#define rrep(i, s, e) for (int i = s; i >= e; i--)
 
 typedef long long ll;
 
 /* ---------------------------------------------------*/
 
-int main() {
-  string Sf, T, ans;
-  cin >> Sf >> T;
-  int n = (int)Sf.size();
-  int m = (int)T.size();
-  bool exist = false;
-  for (int i = n - 1; i >= 0; i--) {
-    bool can = true;
-    for (int j = 0; j < m; j++) {
-      if (Sf.at(i - m + 1 + j) != '?' && Sf.at(i - m + 1 + j) != T.at(j)) {
-        can = false;
-      }
-    }
-    if (can) {
-      string S = Sf;
-      for (int j = i - m + 1; j <= i; j++) {
-        S.at(j) = T.at(j - (i - m + 1));
-      }
-      for (int j = 0; j < n; j++) {
-        if (S.at(j) == '?') {
-          S.at(j) = 'a';
+string SS, T;
+//---------------------------------------------------------------------------------------------------
+string solve() {
+    int N = SS.length();
+    int M = T.length();
+ 
+    set<string> ans;
+    rrep(R, N, M) {
+        int L = R - M;
+ 
+        int ok = 1;
+        rep(i, 0, M) if (SS[L + i] != '?' and SS[L + i] != T[i]) ok = 0;
+        if (ok) {
+            string S;
+            rep(i, 0, N) S += SS[i];
+            rep(i, 0, M) S[L + i] = T[i];
+            rep(i, 0, N) if (S[i] == '?') S[i] = 'a';
+            ans.insert(S);
         }
-      }
-      cout << S << endl;
-      exist = true;
-      break;
     }
-  }
-  if (!exist) {
-    cout << "UNRESTORABLE" << endl;
-  }
-  return 0;
+ 
+    if(ans.size() == 0) return "UNRESTORABLE";
+    return *(ans.begin());
+}
+//---------------------------------------------------------------------------------------------------
+int main() {
+    cin >> SS >> T;
+    cout << solve() << endl;
+    return 0;
 }
