@@ -28,16 +28,23 @@ typedef long long ll;
 int main() {
   int N, M;
   cin >> N >> M;
-  char A[N][N]
+  char A[N][N];
   for (int i = 0; i < N; i++) {
-    cin >> A[];
+    for (int j = 0; j < N; j++)
+    {
+      cin >> A[i][j];
+    }
   }
-  vector<string> B(M);
+  char B[M][M];
   for (int i = 0; i < M; i++) {
-    cin >> B[i];
+    for (int j = 0; j < M; j++)
+    {
+      cin >> B[i][j];
+    }
+    
   }
   bool can;
-  for (int i = 0; i < M; i++) {
+  for (int i = 0; i < N-M+1; i++) {
     for (int j = 0; j < N - M + 1; j++) {
       can = true;
       for (int k = 0; k < M; k++) {
@@ -45,7 +52,7 @@ int main() {
           break;
         }
         for (int l = 0; l < M; l++) {
-          if (A.at(i + k).at(j + l) != B.at(k).at(l)) {
+          if (A[i+k][j+l] != B[k][l]) {
             can = false;
             break;
           }
