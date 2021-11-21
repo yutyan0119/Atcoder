@@ -26,17 +26,36 @@ typedef long long ll;
 /* ---------------------------------------------------*/
 
 int main() {
-  ll N, ans=0;
-  cin >> N;
-  for (ll i = 1; i <= N; i = i * 10 + 1) {
-    for (ll j = 1; i * j <= N; j *= 10) { //i*jが1...10..0に相当
-      ans+= min(j,N-i*j+1); 
-    }
+  int T;
+  cin >> T;
+  ll res[T];
+  for (int i = 0; i < T; i++) {
+    ll ans = 0;
+    ll N2, N3, N4;
+    cin >> N2 >> N3 >> N4;
+    ll m = min(N3 / 2, N4);
+    ans += m;
+    N3 -= (2 * m);
+    N4 -= m;
+    m = min(N2, N4 / 2);
+    ans += m;
+    N2 -= m;
+    N4 -= (2 * m);
+    m = min(N3 / 2, N2 / 2);
+    ans += m;
+    N2 -= (m * 2);
+    N3 -= (m * 2);
+    m = min(N2 / 3, N4);
+    ans += m;
+    N2 -= m * 3;
+    N4 -= m;
+    m = N2 / 5;
+    ans += m;
+    res[i] = ans;
   }
-  cout << ans << endl;
+  for (int i = 0; i < T; i++) {
+    cout << res[i] << endl;
+  }
+
+  return 0;
 }
-/*
-11000の時を考えれば
-普通なら1000=j個あるが、
-場合によってこうなるのがわかる
-*/
