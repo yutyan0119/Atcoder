@@ -1,21 +1,21 @@
 #include <bits/stdc++.h>
 using namespace std;
-int main(){
-  string S;
-  cin >>S;
-  sort(S.begin(), S.end(), greater<int>());
-  int size = (int)(S.size());
-  int s2 = size/2;
-  string a,b;
-  for (int i = 0; i < s2; i++)
-  {
-    a.append(1,S.at(i*2));
-    b.append(1,S.at(i*2+1));
-  }
-  if (size %2 == 1){
-    b.append(1,S.at(size-1));
-  }
-  int A = stoi(a);
-  int B = stoi(b);
-  cout << A*B << endl;
+int main() {
+  string N;
+  cin >> N;
+  sort(N.begin(), N.end());
+  int ans = 0;
+  do {
+    for (int i = 0; i < (int)N.size(); i++) {
+      int l = 0 , r = 0;
+      for (int j = 0; j < i; j++) {
+        l = l*10 + N[j] - '0';
+      }
+      for (int j = i; j < (int)N.size(); j++) {
+        r = r*10 + N[j] - '0';
+      }
+      ans = max(ans,l*r);
+    }
+  } while (next_permutation(N.begin(), N.end()));
+  cout << ans << endl;
 }
