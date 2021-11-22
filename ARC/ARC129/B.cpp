@@ -33,22 +33,14 @@ int main() {
   vector<ll> L(N), R(N);
   for (int i = 0; i < N; i++) {
     cin >> L[i] >> R[i];
+  }
+  for (int i = 0; i < N; i++) {
     minR = min(minR, R[i]);
     maxL = max(maxL, L[i]);
-  }
-  ll ansR = 0;
-  ll ansL = 0;
-  for (int i = 0; i < N; i++) {
-    if (minR < L[i]) {
-      ansR += L[i] - minR;
-    } else if (minR > R[i]) {
-      ansR += minR - R[i];
+    if (minR >= maxL) {
+      cout << 0 << endl;
+    } else if (minR < maxL) {
+      cout << (maxL - minR+1) / 2 << endl;
     }
-    if (maxL < L[i]) {
-      ansL += L[i] - maxL;
-    } else if (maxL > R[i]) {
-      ansL += maxL - R[i];
-    }
-    cout << min(ansL, ansR) << endl;
   }
 }
