@@ -36,11 +36,18 @@ int main() {
   }
   ll ans = 0;
   for (int i = 0; i < (1 << R); i++) {
+    vector<vector<int>> B(R, vector<int>(C));
+    for (int j = 0; j < R; j++) {
+      for (int k = 0; k < C; k++) {
+        B[j][k] = A[j][k];
+      }
+    }
+
     ll sum = 0;
     for (int j = 0; j < R; j++) {
       if (i & 1 << j) {
         for (int k = 0; k < C; k++) {
-          A[j][k] = (A[j][k] == 0 ? 1 : 0);
+          B[j][k] = (A[j][k] == 0 ? 1 : 0);
         }
       }
     }
@@ -48,7 +55,7 @@ int main() {
       int omote = 0;
       int ura = 0;
       for (int k = 0; k < R; k++) {
-        if (A[k][j] == 0) {
+        if (B[k][j] == 0) {
           omote++;
         } else {
           ura++;
