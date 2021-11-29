@@ -25,52 +25,43 @@ typedef long long ll;
 
 /* ---------------------------------------------------*/
 
+//方針。後ろのクエリが優先される場合は後ろから実行していき、上書きできない場所をsetで管理しておく
 int main() {
   ll H;
   ll W;
   cin >> H >> W;
   ll C, Q;
   cin >> C >> Q;
-  vector<ll> color(C, 0);
-  map<ll, pair<ll, ll>> column;
-  map<ll, pair<ll, ll>> row;
-  vector<ll> rowcount(Q + 1);
-  vector<ll> columncount(Q + 1);  //[0,r)に来たt==1の回数を保存します。
-  rowcount[0] = 0;
-  columncount[0] = 0;
+  vector<ll> t(Q), c(Q), n(Q);
   for (int i = 0; i < Q; i++) {
-    int t;
-    ll n;
-    ll c;
-    cin >> t >> n >> c;
-    n--;
-    c--;
-    if (t == 1) {
-      color.at(c) += W;
-      if (column.find(n) != column.end()) {
-        color.at(column[n].first) -= W;
+    cin >> t[i] >> n[i] >> c[i];
+    --n[i];
+    --c[i];
+  }
+  vector<ll> ans(C);
+  set<ll> rowused, columnused;
+  for (ll i = Q - 1; i >= 0; --i) {
+    if (t[i] == 1) {
+      if (columnused.find(n[i]) != columnused.end()) {
+        continue;
+      } else {
+        columnused.insert(n[i]);
+        ans[c[i]] += W - rowused.size();
       }
-      columncount[i + 1] = columncount[i] + 1;
-      column[n] = {c, i};
-      rowcount[i + 1] = rowcount[i];
-    } else if (t == 2) {
-      color.at(c) += H;
-      if (row.find(n) != row.end()) {
-        color.at(row[n].first) -= H;
+    }
+    if (t[i] == 2) {
+      if (rowused.find(n[i]) != rowused.end()) {
+        continue;
+      } else {
+        rowused.insert(n[i]);
+        ans[c[i]] += H - columnused.size();
       }
-      row[n] = {c, i};
-      rowcount[i + 1] = rowcount[i] + 1;
-      columncount[i + 1] = columncount[i];
     }
   }
-  for (auto x : column) {
-    color[x.second.first] -= rowcount[Q] - rowcount[x.second.second];
-  }
-  for (auto x : row) {
-    color[x.second.first] -= columncount[Q] - columncount[x.second.second];
-  }
-  for (auto x : color) {
-    cout << x << " ";
+  for (int i = 0; i < C; i++)
+  {
+    cout << ans[i] << " ";
   }
   cout << endl;
+  return 0;
 }
