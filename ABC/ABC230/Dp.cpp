@@ -38,17 +38,11 @@ int main() {
   sort(L.begin(), L.end());
   for (int i = 0; i < N; i++) {
     ll baseR = L.at(i).first;
-    ll ac = i;
-    ll wa = N;
-    while (abs(wa-ac) >1){
-      ll mid = (ac+wa)/2;
-      if(L.at(mid).second - baseR < D){
-        ac = mid;
-      }else {
-        wa = mid;
-      }
+    ll minL;
+    for (int j = i; j < N && L.at(j).second - baseR < D; j++) {
+      minL = j;
     }
-    i = ac;
+    i = minL;
     count++;
   }
   cout << count << endl;
