@@ -28,10 +28,16 @@ int main() {
   ll N;
   cin >> N;
   ll sum = 0;
-
-  for (int i = N; i >=N/2; i--)
-  {
-    sum += N/i;
+  for (int i = 1; i <= N/2; i++){
+    ll ac = 0;
+    ll wa = N+1;
+    while (wa-ac > 1){
+      ll mid = (ac+wa)/2;
+      if(N/mid<=i){
+        ac = mid;
+      }
+    }
   }
-  cout << sum + N/2 << endl;
+  
+  cout << sum  << endl;
 }
