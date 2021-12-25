@@ -78,18 +78,11 @@ int main() {
     cin >> A[i];
     sum[i + 1] = sum[i] + A[i];
   }
-  int ans = 0;
-  for (int l = 0; l < N; l++) {
-    for (int r = l + 1; r < N + 1; r++) {
-      ll test = sum[r] - sum[l];
-      if (test > K && A[l] > 0) {
-        break;
-      }
-      if (test < K && A[l] < 0) {
-        break;
-      }
-      if (test == K) ans++;
-    }
+  ll ans = 0;
+  map <ll,ll> map;
+  for (int r = 1; r <= N; r++){
+    map[sum[r-1]]++;
+    ans += map[sum[r]-K];
   }
   cout << ans << endl;
 }
