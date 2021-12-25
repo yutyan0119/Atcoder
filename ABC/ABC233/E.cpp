@@ -32,9 +32,9 @@ int main() {
     s += (nx - '0');
   }
   string res;
-  for (int i = X.size() - 1;; i--) {
+  for (int i = (int)X.size() - 1;; i--) {
     c += s;
-    res.push_back('0' + (c % 10));
+    res.push_back((char)('0' + (c % 10)));
     c /= 10;
     if (i >= 0) {
       s -= (X[i] - '0');
