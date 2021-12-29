@@ -1,84 +1,53 @@
 #include <bits/stdc++.h>
+
 using namespace std;
-
-template <typename T>
-bool chmin(T& a, const T& b) {
-  if (a > b) {
-    a = b;  // aをbで更新
-    return true;
-  }
-  return false;
-}
-
-template <typename T>
-bool chmax(T& a, const T& b) {
-  if (a < b) {
-    a = b;  // aをbで更新
-    return true;
-  }
-  return false;
-}
-
-#define rep(i, s, e) for (int i = s; i < e; i++)
-
 typedef long long ll;
 
-/* ---------------------------------------------------*/
+#define rep(i, n) for (int i = 0; i < (n); ++i)
 
-int main() {
-  int dx[4] = {0, 1, 0, -1};
-  int dy[4] = {1, 0, -1, 0};
+typedef pair<int, int> P;
+
+int wall_x[31][31];
+int wall_y[31][31];
+int d[31][31];
+int main(void) {
   int w, h;
-  while (cin >> w >> h) {
-    if (w == 0 && h == 0) break;
-    int ans;
-    vector<vector<int>> field(62, vector<int>(62, 1));
-    for (int i = 0; i < h * 2 - 1; i++) {
-      for (int j = 0; j < w * 2 - 1; j++) {
-        field[i + 1][j + 1] = 0;
-      }
-    }
-    for (int i = 0; i < h * 2 - 1; i++) {
-      if (i % 2 == 0) {
-        for (int j = 0; j < w - 1; j++) {
-          int a;
-          cin >> a;
-          field[i][2 * j + 2] |= a;
-          field[i + 1][2 * j + 2] |= a;
-          field[i + 2][2 * j + 2] |= a;
-        }
+  while (cin >> w >> h && w) {
+    rep(i, 31) rep(j, 31) wall_x[i][j] = wall_y[i][j] = -1;
+    rep(line, 2 * h - 1) {
+      if (line % 2 == 0) {
+        rep(i, w - 1) cin >> wall_x[line / 2][i];
       } else {
-        for (int j = 0; j < w; j++) {
-          int a;
-          cin >> a;
-          field[i + 1][j * 2] |= a;
-          field[i + 1][j * 2 + 1] |= a;
-          field[i + 1][j * 2 + 2] |= a;
-        }
+        rep(i, w) cin >> wall_y[line / 2][i];
       }
     }
-    queue<pair<int, int>> Q;
-    Q.push({1, 1});
-    vector<vector<int>> count(2 * h - 1, vector<int>(2 * w - 1, 0));
-    while (!Q.empty()) {
-      int y = Q.front().first;
-      int x = Q.front().second;
-      if (field[y][x] == -1)
-        continue;
-      else {
-        field[y][x] = -1;
+    rep(i, 31) rep(j, 31) d[i][j] = 0;
+    queue<P> que;
+    que.push(P(0, 0));
+    d[0][0] = 1;
+    while (!que.empty()) {
+      P p = que.front();
+      que.pop();
+      int cy = p.first, cx = p.second;
+      if (cy == h - 1 && cx == w - 1) break;
+
+      if (cx > 0 && wall_x[cy][cx - 1] == 0 && d[cy][cx - 1] == 0) {
+        d[cy][cx - 1] = d[cy][cx] + 1;
+        que.push(P(cy, cx - 1));
       }
-      if (x == w * 2 - 1 && y == h * 2 - 1) {
-        ans = count[y][x] / 2 + 1;
-        break;
+      if (cx < w - 1 && wall_x[cy][cx] == 0 && d[cy][cx + 1] == 0) {
+        d[cy][cx + 1] = d[cy][cx] + 1;
+        que.push(P(cy, cx + 1));
       }
-      for (int i = 0; i < 4; i++) {
-        int nx = x + dx[i];
-        int ny = y + dy[i];
-        count[ny][nx] = count[y][x] + 1;
-        Q.push({ny, nx});
+      if (cy > 0 && wall_y[cy - 1][cx] == 0 && d[cy - 1][cx] == 0) {
+        d[cy - 1][cx] = d[cy][cx] + 1;
+        que.push(P(cy - 1, cx));
+      }
+      if (cy < h - 1 && wall_y[cy][cx] == 0 && d[cy + 1][cx] == 0) {
+        d[cy + 1][cx] = d[cy][cx] + 1;
+        que.push(P(cy + 1, cx));
       }
     }
-    cout << ans << endl;
+    cout << d[h - 1][w - 1] << endl;
   }
 }
