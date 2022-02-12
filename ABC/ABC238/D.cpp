@@ -67,5 +67,14 @@ class UnionFind {
 };
 /* ---------------------------------------------------*/
 int main() {
+  int T;
+  cin >> T;
+  bool can[T];
+  for (int i = 0; i < T; i++)
+  {
+    string a,s;
+    cin >> a >> s;
+    
+  }
   
 }
