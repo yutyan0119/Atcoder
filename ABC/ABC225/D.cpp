@@ -21,65 +21,51 @@ bool chmax(T& a, const T& b) {
 
 #define rep(i, s, e) for (int i = s; i < e; i++)
 
+typedef long long ll;
+
 /* ---------------------------------------------------*/
 
 int main() {
-  int N;
-  int Q;
+  int N, Q;
   cin >> N >> Q;
-  vector<tuple<int, int, int>> query(Q);
+  vector<vector<ll>> A(N, vector<ll>(2, -1));
   for (int i = 0; i < Q; i++) {
-    cin >> get<0>(query[i]);
-    if (get<0>(query[i]) == 1 || get<0>(query[i]) == 2) {
-      cin >> get<1>(query[i]) >> get<2>(query[i]);
-    } else {
-      cin >> get<1>(query[i]);
-    }
-  }
-  vector<tuple<queue<int>, int, int>> train(N);
-
-  for (int i = 0; i < N; i++) {
-    get<0>(train[i]).push(i + 1);
-    get<1>(train[i]) = get<2>(train[i]) = i + 1;
-  }
-
-  for (int i = 0; i < Q; i++) {
-    if (get<0>(query[i]) == 1) {
-      int x = get<1>(query[i]);
-      int y = get<2>(query[i]);
-      for (int i = 0; i < N; i++) {
-        if (get<1>(train[i]) == x) {
-          x = i;
-        }
-        if (get<2>(train[i]) == y) {
-          y = i;
+    ll n, x, y;
+    cin >> n >> x;
+    if (n == 1) {
+      cin >> y;
+      A[x][1] = y;
+      A[y][0] = x;
+    } else if (n == 2) {
+      cin >> y;
+      A[x][1] = -1;
+      A[y][0] = -1;
+    } else if (n == 3) {
+      while (true) {
+        if (A[x][0] == -1) {
+          break;
+        } else {
+          x = A[x][0];
         }
       }
-
-      int size = get<0>(train[y]).size();
-      for (int i = 0; i < size; i++) {
-        get<0>(train[x]).push(get<0>(train[y]).front());
-        get<2>(train[x]) = get<0>(train[y]).front();
-        get<0>(train[y]).pop();
+      vector<ll> ans;
+      while (true) {
+        if (A[x][1] == -1) {
+          ans.push_back(x);
+          break;
+        }
+        ans.push_back(x);
+        x = A[x][1];
       }
-      get<1>(train[y]) = get<2>(train[y]) = 0;
-    }
-    if (get<0>(query[i]) == 2) {
-      int x = get<1>(query[i]);
-      int y = get<2>(query[i]);
-      for (int i = 0; i < N; i++)
-      {
-        if (get<1>(train[i])!=0){
-          int size = get<0>(train[i]).size();
-          
+      cout << ans.size() << " ";
+      for (ll i = 0; i < ans.size(); i++) {
+        cout << ans[i];
+        if (i != ans.size() - 1) {
+          cout << " ";
+        } else {
+          cout << endl;
         }
       }
-      
-
-    }
-    if (get<0>(query[i]) == 3) {
-      int x = get<1>(query[i]);
-      int y = get<2>(query[i]);
     }
   }
 }
