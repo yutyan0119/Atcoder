@@ -25,18 +25,35 @@ typedef long long ll;
 /* ---------------------------------------------------*/
 
 int main() {
-  ll N;
-  cin >> N;
-  int keta = to_string(N).length();
-  ll banme = N - (ll)pow(10, keta - 1) + 1;
-  ll sum = 0;
-  ll mod = 998244353;
-
-  for (int i = 1; i < keta; i++) {
-    ll benri = (ll)pow(10, i - 1) % mod;
-    sum += (1 + ((9 * benri)%mod)) * ((9 * benri)%mod) / 2 % mod;
-    sum = sum % mod;
+  ll x1, y1, x2, y2;
+  cin >> x1 >> y1 >> x2 >> y2;
+  ll dx[4] = {1, 2, -1, -2};
+  ll dyp[4] = {2, 1, -2, -1};
+  ll dym[4] = {-2, -1, 2, 1};
+  bool exit = false;
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 4; j++) {
+      if (x1 + dx[i] == x2 + dx[j] && y1 + dyp[i] == y2 + dyp[j]) {
+        exit = true;
+        break;
+      }
+      if (x1 + dx[i] == x2 + dx[j] && y1 + dym[i] == y2 + dym[j]) {
+        exit = true;
+        break;
+      }
+      if (x1 + dx[i] == x2 + dx[j] && y1 + dym[i] == y2 + dyp[j]){
+        exit = true;
+        break;
+      }
+      if (x1 + dx[i] == x2 + dx[j] && y1 + dyp[i] == y2 + dym[j]){
+        exit = true;
+        break;
+      }
+    }
   }
-  sum += (1 + (banme % mod)) * (banme % mod) / 2;
-  cout << sum % mod << endl;
+  if (exit) {
+    cout << "Yes" << endl;
+  } else {
+    cout << "No" << endl;
+  }
 }

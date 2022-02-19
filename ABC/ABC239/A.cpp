@@ -25,7 +25,7 @@ typedef long long ll;
 /* ---------------------------------------------------*/
 
 int main() {
-  ll n;
-  cin >> n;
-  cout << (n * n < pow(2, n) ? "Yes" : "No") << endl;
+  ll H;
+  cin >> H;
+  printf("%.8f\n",sqrt(H*(12800000+H)));
 }

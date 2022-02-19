@@ -66,15 +66,31 @@ class UnionFind {
   }
 };
 /* ---------------------------------------------------*/
-int main() {
-  int T;
-  cin >> T;
-  bool can[T];
-  for (int i = 0; i < T; i++)
-  {
-    string a,s;
-    cin >> a >> s;
-    
+
+bool isprime(int A) {
+  bool ans = true;
+  for (int i = 2; i * i <= A; i++) {
+    if (A % i == 0) {
+      ans = false;
+      break;
+    }
   }
-  
+  return ans;
+}
+
+int main() {
+  ll A, B, C, D;
+  cin >> A >> B >> C >> D;
+  bool takahashi = false;
+  for (int i = A; i <= B; i++) {
+    for (int j = C; j <= D; j++) {
+      if (isprime(i + j)) {
+        break;
+      }
+      if (!isprime(i + j) && j == D) {
+        takahashi = true;
+      }
+    }
+  }
+  cout << (takahashi ? "Takahashi" : "Aoki") << endl;
 }
