@@ -39,9 +39,13 @@ void dfs(ll root) {
     else {
       seen[x] = true;
       // Children.at(root).push_back(x);
-      numdata.at(root).push_back(X[x]);
       dfs(x);
-      numdata[root].insert(numdata[root].end(),numdata[x].begin(),numdata[x].end());
+      numdata[root].insert(numdata[root].end(), numdata[x].begin(),
+                           numdata[x].end());
+      sort(numdata[root].rbegin(),numdata[root].rend());
+      while(numdata[root].size()>20){
+        numdata[root].pop_back();
+      }
     }
   }
 }  //子供を求めるO(2N-1)
@@ -49,12 +53,13 @@ void dfs(ll root) {
 void dfs2(ll root) {
   seen[root] = true;
   for (auto x : Hen[root]) {
-    if(seen[x]) continue;
+    if (seen[x]) continue;
     dfs2(x);
     // cout <<"tougou" << root << " " << x << endl;
-    numdata[root].insert(numdata[root].end(),numdata[x].begin(),numdata[x].end());
+    numdata[root].insert(numdata[root].end(), numdata[x].begin(),
+                         numdata[x].end());
   }
-}//O(2N-1)
+}  // O(2N-1)
 
 int main() {
   cin >> N >> Q;
@@ -65,6 +70,7 @@ int main() {
   Children.assign(N, vector<ll>());  //頂点iから到達可能な子のベクトル
   for (ll i = 0; i < N; i++) {
     cin >> X[i];
+    numdata[i].push_back(X[i]);
   }
   for (ll i = 0; i < N - 1; i++) {
     ll A, B;
@@ -74,10 +80,9 @@ int main() {
     Hen.at(A).push_back(B);
     Hen.at(B).push_back(A);
   }
-  dfs(0); //0からdfsして子を求める
-  seen.assign(N,false);
+  dfs(0);  // 0からdfsして子を求める
+  seen.assign(N, false);
   for (ll i = 0; i < N; i++) {
-    numdata.at(i).push_back(X[i]);
     sort(numdata.at(i).rbegin(), numdata.at(i).rend());
   }
   // for (ll i = 0 ; i < N ; i++){
