@@ -26,22 +26,36 @@ typedef long long ll;
 
 vector<vector<ll>> Edge;
 vector<bool> seen;
-vector<ll> maxchil; //子の最大値
-vector<ll> minchil; //子の最小値
-vector<ll> cannum; //兄妹を考慮した可能な最少値（親から知らされる）
+vector<ll> leaf;
+vector<ll> L;
+vector<ll> R;
+ll id = 0;
 
 void dfs(ll par) {
   seen[par] = true;
+  if (Edge[par].size() == 1 && par != 0) {
+    id++;
+    leaf[par] = id;
+    return;
+  }
   for (auto chil : Edge.at(par)) {
     if (seen.at(chil)) continue;
-    cannum[chil] = cannum[par];
     dfs(chil);
-    chmin(minchil.at(par), minchil.at(chil));
-    chmax(maxchil[par], maxchil[chil]);
-    cannum[par] = maxchil[chil] + 1;
   }
-  maxchil[par] = max(maxchil[par],cannum[par]);
-  minchil[par] = max(minchil[par],cannum[par]);
+}
+
+void dfs2(ll par) {
+  seen[par] = true;
+  if (leaf[par]) {
+    L[par] = R[par] = leaf[par];
+    return;
+  }
+  for (auto chil : Edge[par]) {
+    if (seen[chil]) continue;
+    dfs2(chil);
+    chmin(L[par], L[chil]);
+    chmax(R[par], R[chil]);
+  }
 }
 
 int main() {
@@ -49,9 +63,9 @@ int main() {
   cin >> N;
   Edge.assign(N, vector<ll>());
   seen.assign(N, false);
-  maxchil.assign(N, 1);
-  minchil.assign(N, 1);
-  cannum.assign(N, 1);
+  leaf.assign(N, 0);
+  L.assign(N, 1e9);
+  R.assign(N, -1e9);
   for (ll i = 0; i < N - 1; i++) {
     ll a, b;
     cin >> a >> b;
@@ -61,7 +75,9 @@ int main() {
     Edge[b].push_back(a);
   }
   dfs(0);
-  for (ll i = 0 ; i < N ; i ++){
-    cout << minchil[i] << " " << maxchil[i] << endl;
+  seen.assign(N, false);
+  dfs2(0);
+  for (ll i = 0; i < N; i++) {
+    cout << L[i] << " " << R[i] << endl;
   }
 }
