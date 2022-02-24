@@ -23,6 +23,8 @@ bool chmax(T& a, const T& b) {
 
 typedef long long ll;
 
+/* ---------------------------------------------------*/
+
 struct UnionFind {
   vector<int> par, siz;
   UnionFind(int n) {
@@ -53,6 +55,36 @@ struct UnionFind {
   int size(int x) { return siz[x]; }
 };
 
-/* ---------------------------------------------------*/
+int main() {
+  int N;
+  cin >> N;
+  vector<pair<int, int>> va(N), vb(N);
+  for (int i = 0; i < N; i++) {
+    int x, y;
+    cin >> x >> y;
+    va[i] = make_pair(x, i);
+    vb[i] = make_pair(y, i);
+  }
+  sort(va.begin(), va.end());
+  sort(vb.begin(), vb.end());
+  vector<tuple<int, int, int>> edges;
+  for (int i = 0; i < N - 1; i++) {
+    edges.push_back(make_tuple(va[i + 1].first - va[i].first, va[i].second,
+                               va[i + 1].second));
+    edges.push_back(make_tuple(vb[i + 1].first - vb[i].first, vb[i].second,
+                               vb[i + 1].second));
+  }
+  sort(edges.begin(), edges.end());
+  UnionFind uf(N);
+  ll ans = 0;
+  for (auto p : edges) {
+    int x, y, c;
+    tie(c, x, y) = p;
 
-int main() {}
+    if (!uf.issame(x, y)) {
+      uf.unite(x, y);
+      ans += c;
+    }
+  }
+  cout << ans << endl;
+}
