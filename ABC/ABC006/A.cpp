@@ -20,28 +20,15 @@ bool chmax(T& a, const T& b) {
 }
 
 #define rep(i, s, e) for (int i = s; i < e; i++)
-typedef long long ll;
 
+typedef long long ll;
 /* ---------------------------------------------------*/
 
 int main() {
-  ll N, K;
-  scanf("%lld%lld", &N, &K);
-  vector<pair<ll, ll>> a(N);
-  vector<ll> b(N);
-  for (ll i = 0; i < N; i++) {
-    ll p;
-    scanf("%lld", &p);
-    a[i] = make_pair(p, i);
-    scanf("%lld", &b[i]);
+  vector<int> a(10);
+  for (int i = 0; i < 10; i++) {
+    cin >> a[i];
   }
-  sort(a.begin(), a.end());
-  ll num = 0;
-  for (ll i = 0; i < N; i++) {
-    num += b[a[i].second];
-    if (num >= K) {
-      printf("%lld\n", a[i].first);
-      return 0;
-    }
-  }
+
+  cout << a[a[a[0]]] << endl;
 }

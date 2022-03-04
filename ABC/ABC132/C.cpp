@@ -25,23 +25,18 @@ typedef long long ll;
 /* ---------------------------------------------------*/
 
 int main() {
-  ll N, K;
-  scanf("%lld%lld", &N, &K);
-  vector<pair<ll, ll>> a(N);
-  vector<ll> b(N);
-  for (ll i = 0; i < N; i++) {
-    ll p;
-    scanf("%lld", &p);
-    a[i] = make_pair(p, i);
-    scanf("%lld", &b[i]);
+  ll N;
+  cin >> N;
+  int keta = to_string(N).length();
+  ll banme = N - (ll)pow(10, keta - 1) + 1;
+  ll sum = 0;
+  ll mod = 998244353;
+
+  for (int i = 1; i < keta; i++) {
+    ll benri = (ll)pow(10, i - 1) % mod;
+    sum += (1 + ((9 * benri)%mod)) * ((9 * benri)%mod) / 2 % mod;
+    sum = sum % mod;
   }
-  sort(a.begin(), a.end());
-  ll num = 0;
-  for (ll i = 0; i < N; i++) {
-    num += b[a[i].second];
-    if (num >= K) {
-      printf("%lld\n", a[i].first);
-      return 0;
-    }
-  }
+  sum += (1 + (banme % mod)) * (banme % mod) / 2;
+  cout << sum % mod << endl;
 }

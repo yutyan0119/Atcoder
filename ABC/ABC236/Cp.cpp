@@ -25,23 +25,28 @@ typedef long long ll;
 /* ---------------------------------------------------*/
 
 int main() {
-  ll N, K;
-  scanf("%lld%lld", &N, &K);
-  vector<pair<ll, ll>> a(N);
-  vector<ll> b(N);
-  for (ll i = 0; i < N; i++) {
-    ll p;
-    scanf("%lld", &p);
-    a[i] = make_pair(p, i);
-    scanf("%lld", &b[i]);
-  }
-  sort(a.begin(), a.end());
-  ll num = 0;
-  for (ll i = 0; i < N; i++) {
-    num += b[a[i].second];
-    if (num >= K) {
-      printf("%lld\n", a[i].first);
-      return 0;
+  string S;
+  cin >> S;
+  int N = (int)S.size();
+  bool can = true;
+  bool acan = true;
+  int j = 0;
+  for (int i = 0; i < N; i++) {
+    if (S.at(N - 1 - i) != 'a') {
+      acan = false;
     }
+    if (S.at(j) != S.at(N - 1 - i)) {
+      if (S.at(N - 1 - i) == 'a' && acan) {
+        continue;
+      }
+      can = false;
+      break;
+    }
+    j++;
+  }
+  if (can) {
+    cout << "Yes" << endl;
+  } else {
+    cout << "No" << endl;
   }
 }
