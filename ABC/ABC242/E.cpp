@@ -26,20 +26,6 @@ typedef long long ll;
 
 const ll mod = 998244353;
 
-ll powmod(ll a, ll b) {
-  if (b == 0) {
-    return 1;
-  } else if (b == 1) {
-    return a % mod;
-  } else if (b == 2) {
-    return (a * a) % mod;
-  } else if (b % 2) {
-    return (powmod(powmod(a, b / 2), 2) * a) % mod;
-  } else {
-    return ((powmod(a, b / 2), 2)) % mod;
-  }
-}
-
 int main() {
   cin.tie(0);
   ios::sync_with_stdio(false);
@@ -48,36 +34,28 @@ int main() {
   for (ll i = 0; i < T; i++) {
     ll N;
     string S;
-    ll ans = 0;
     cin >> N >> S;
-    if (N % 2 == 0) {
-      for (ll j = 0; j < N / 2; j++) {
-        ans += (ll)(S.at(j) - 'A') * powmod(27, (N / 2 - j - 1));
-        ans %= mod;
-      }
-      if (S.at(N / 2) < S.at(N / 2 + 1)) {
-        ans++;
-      } else if (S.at(N / 2 - 1) == S.at(N / 2)) {
-        string S1 = S.substr(0, N / 2);
-        string S2 = S.substr(N / 2 );
-        cout << S1 << S2 << "\n";
-        if (S1 < S2) {
-          ans++;
-        }
-      }
-      cout << ans % mod << "\n";
-    } else {
-      for (ll j = 0; j <= N / 2; j++) {
-        ans += (ll)(S.at(j) - 'A') * powmod(27, (N / 2 - j));
-        ans %= mod;
-      }
-      string S1 = S.substr(0, N / 2);
-      string S2 = S.substr(N / 2 + 1);
-      cout << S1 << S2 << "\n";
-      if (S1 <= S2) {
-        ans++;
-      }
-      cout << ans % mod << "\n";
+    ll count = 0;
+    string target = S;
+    int p = 0, q = N - 1;
+    while (p < q) {
+      target[q] = target[p];
+      p++;
+      q--;
     }
+    int last = (N - 1) / 2;
+    for (int j = 0; j <= last; j++) {
+      count *= 26;
+      count %= mod;
+      count += (S[j] - 'A');
+      count %= mod;
+    }
+    count++;
+    count %= mod;
+    if (S < target) {
+      count += (mod - 1);
+      count %= mod;
+    }
+    cout << count << "\n";
   }
 }

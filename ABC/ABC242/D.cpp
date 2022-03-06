@@ -66,5 +66,56 @@ class UnionFind {
   }
 };
 /* ---------------------------------------------------*/
+string S;
 
-int main() { string S; }
+vector<char> A = {'A', 'B', 'C'};
+vector<char> B = {'B', 'C', 'A'};
+vector<char> C = {'C', 'A', 'B'};
+
+char solve(ll t, ll k) {
+  if (t == 0) {
+    return S.at(k);
+  } else if (k == 0) {
+    if (S.at(0) == 'A') {
+      return A[t % 3];
+    } else if (S.at(0) == 'B') {
+      return B[t % 3];
+    } else if (S.at(0) == 'C') {
+      return C[t % 3];
+    }
+  } else {
+    char tmp = solve(t - 1, k / 2);
+    if (k % 2) {
+      if (tmp == 'A') {
+        return A[2];
+      } else if (tmp == 'B') {
+        return B[2];
+      } else if (tmp == 'C') {
+        return C[2];
+      }
+    } else {
+      if (tmp == 'A') {
+        return A[1];
+      } else if (tmp == 'B') {
+        return B[1];
+      } else if (tmp == 'C') {
+        return C[1];
+      }
+    }
+  }
+}
+
+int main() {
+  cin.tie(0);
+  ios::sync_with_stdio(false);
+  cin >> S;
+  ll Q;
+  cin >> Q;
+  for (ll i = 0; i < Q; i++) {
+    ll t;
+    ll k;
+    cin >> t >> k;
+    k--;
+    cout << solve(t, k) << "\n";
+  }
+}
