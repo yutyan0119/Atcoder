@@ -26,33 +26,21 @@ typedef long long ll;
 /* ---------------------------------------------------*/
 
 int main() {
-  int N, M;
-  cin >> N >> M;
-  map<ll, int> A;
-  vector<ll> B(M);
-  for (int i = 0; i < N; i++) {
-    int a;
-    cin >> a;
-    if (A.find(a) != A.end()) {
-      A[a]++;
-    } else {
-      A[a] = 1;
+  ll N;
+  scanf("%lld", &N);
+  vector<int> num(N, 4);
+  vector<bool> card(N, true);
+  for (ll i = 0; i < 4 * N - 1; i++) {
+    ll a;
+    scanf("%lld", &a);
+    a--;
+    num[a]--;
+    if (num[a] == 0) card[a] = false;
+  }
+  for (ll i = 0; i < N; i++) {
+    if (card[i]) {
+      printf("%lld\n", i + 1);
+      break;
     }
   }
-  for (int i = 0; i < M; i++) {
-    cin >> B[i];
-    if (A.find(B[i]) == A.end()) {
-      cout << "No"
-           << "\n";
-      return 0;
-    } else if (A[B[i]] <= 0) {
-      cout << "No"
-           << "\n";
-      return 0;
-    } else {
-      A[B[i]]--;
-    }
-  }
-  cout << "Yes"
-       << "\n";
 }

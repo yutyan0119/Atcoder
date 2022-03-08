@@ -68,13 +68,16 @@ class UnionFind {
 /* ---------------------------------------------------*/
 int main() {
   int T;
-  cin >> T;
-  bool can[T];
-  for (int i = 0; i < T; i++)
-  {
-    string a,s;
-    cin >> a >> s;
-    
+  scanf("%d", &T);
+  for (int i = 0; i < T; i++) {
+    ll a, s;
+    scanf("%lld%lld", &a, &s);
+    if ((s - 2 * a) < 0) {
+      printf("No\n");
+    } else if (a & (s - 2 * a)) {
+      printf("No\n");
+    } else {
+      printf("Yes\n");
+    }
   }
-  
 }

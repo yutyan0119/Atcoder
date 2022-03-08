@@ -66,81 +66,55 @@ class UnionFind {
   }
 };
 /* ---------------------------------------------------*/
+ll a, n;
+
 ll rotate_ll(ll N) {
   string S = to_string(N);
   string ans = "";
+  ans.push_back(S.at(S.size() - 1));
   for (int i = 1; i < S.size(); i++) {
-    ans += S.at(i);
+    ans += S.at(i - 1);
   }
-  ans += S.at(0);
   return stoll(ans);
 }
 
-int solve(ll a, ll N, bool rotate) {
-  cout << N << "rotate can = " << rotate << endl;
-  if (N == 1) {
-    return 0;
+ll keta(ll num) {
+  ll ans = 0;
+  while (num) {
+    num /= 10;
+    ans++;
   }
-  if (N > 10 && rotate) {
-    if (N % a == 0) {
-      if (rotate_ll(N) % 10 != 0) {
-        int a1 = solve(a, N / a, 1);
-        int a2 = solve(a, rotate_ll(N), 0);
-        if (a1 == -1 && a2 == -1) {
-          return -1;
-        } else if (a1 != -1 && a2 != -1) {
-          return min(a1, a2) + 1;
-        } else {
-          return (a1 == -1) ? a2 + 1 : a1 + 1;
-        }
-      } else {
-        if (solve(a, N / a, 1) == -1) {
-          return -1;
-        } else {
-          return solve(a, N / a, 1) + 1;
-        }
-      }
-    }
-    if (N % a != 0) {
-      if (rotate_ll(N) % 10 != 0) {
-        if (solve(a, rotate_ll(N), 0) == -1) {
-          return -1;
-        } else {
-          return solve(a, rotate_ll(N), 0) + 1;
-        }
-      } else {
-        return -1;
-      }
-    }
-  }
-  if (N > 10 && N % 10 != 0 && !rotate) {
-    if (N % a != 0) {
-      return -1;
-    }
-    if (N % a == 0) {
-      if (solve(a, N / a, 1) == -1) {
-        return -1;
-      } else {
-        return solve(a, N / a, 1) + 1;
-      }
-    }
-  }
-  if ((N > 10 && N % 10 == 0) || (N <= 10)) {
-    if (N % a != 0) {
-      return -1;
-    }
-    if (N % a == 0) {
-      if (solve(a, N / a, 1) == -1) {
-        return -1;
-      } else {
-        return solve(a, N / a, 1) + 1;
-      }
-    }
-  }
+  return ans;
 }
 
+map<ll, ll> m;
+queue<ll> que;
+
 int main() {
-  ll a, N;
-  cin >> a >> N;
-  cout << solve(a, N, 1) << endl;
+  cin >> a >> n;
+  m[1] = 0;
+  que.push(1);
+  while (!que.empty()) {
+    ll x = que.front();
+    que.pop();
+    if (x % 10 != 0 && x >= 10) {
+      ll nextx = rotate_ll(x);
+      if (m.find(nextx) == m.end()) {
+        m[nextx] = m[x] + 1;
+        que.push(nextx);
+      }
+    }
+    if (keta(x * a) <= keta(n)) {
+      ll nextx = x * a;
+      if (m.find(nextx) == m.end()) {
+        m[nextx] = m[x] + 1;
+        que.push(nextx);
+      }
+    }
+  }
+  if (m.find(n) != m.end()) {
+    cout << m[n] << endl;
+  } else {
+    cout << -1 << endl;
+  }
 }

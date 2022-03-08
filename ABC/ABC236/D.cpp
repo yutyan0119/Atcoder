@@ -28,7 +28,7 @@ class UnionFind {
   // 親の番号を格納する。親だった場合は-(その集合のサイズ)
   vector<int> Parent;
 
-  UnionFind(int N) { Parent = vector<int>(N, -1); }
+  UnionFind(int n) { Parent = vector<int>(n, -1); }
 
   // Aがどのグループに属しているか調べる
   int root(int A) {
@@ -67,43 +67,48 @@ class UnionFind {
 };
 /* ---------------------------------------------------*/
 
-int main() {
-  cin.tie(0);
-  ios::sync_with_stdio(false);
-  ll Q;
-  cin >> Q;
-  vector<ll> all;
-  ll num = 0;
-  for (ll i = 0; i < Q; i++) {
-    int q;
-    cin >> q;
-    if (q == 1) {
-      ll x;
-      cin >> x;
-      num++;
-      all.push_back(x);
-    }
-    if (q == 2) {
-      ll x, k;
-      cin >> x >> k;
-      sort(all.begin(), all.end());
-      ll n = lower_bound(all.begin(), all.end(), x) - all.begin();
-      // cout << n << "a\n";
-      if (n < k)
-        cout << "-1\n";
-      else
-        cout << all[n - k] << "\n";
-    }
-    if (q == 3) {
-      ll x, k;
-      cin >> x >> k;
-      sort(all.begin(), all.end());
-      ll n = lower_bound(all.begin(), all.end(), x) - all.begin();
-      // cout << n+k << " " << num <<"\n";
-      if (num < n + k)
-        cout << -1 << "\n";
-      else
-        cout << all[n + k - 1] << "\n";
+int n;
+vector<vector<int>> A(20, vector<int>(20));
+vector<bool> used(20);
+vector<pair<int, int>> vec;
+
+int calc() {
+  if (vec.size() == n) {
+    int rec = 0;
+    for (auto p : vec) rec ^= (A[p.first][p.second]);
+    return rec;
+  }
+
+  int l;  // 1番若い番号を入れる箱
+  for (int i = 1; i <= 2 * n; i++) {
+    if (!used[i]) {
+      l = i;
+      break;
     }
   }
+  used[l] = true;
+
+  int ret = 0;
+  for (int i = 1; i <= 2 * n; i++) {
+    if (!used[i]) {
+      vec.push_back(make_pair(l, i));  //使ってないやつをペア来んで入れる
+      used[i] = true;
+      ret = max(ret, calc());  //ペアがうまるまで繰り返す
+      vec.pop_back();          //戻る
+      used[i] = false;
+    }
+  }
+  used[l] = false;
+  return ret;  //最後まで行くと最大値が帰ってくる
+}
+
+int main() {
+  cin >> n;
+  for (int i = 1; i <= 2 * n - 1; i++) {
+    for (int j = i + 1; j <= 2 * n; j++) {
+      cin >> A[i][j];
+    }
+  }
+  cout << calc() << "\n";
+  return 0;
 }
