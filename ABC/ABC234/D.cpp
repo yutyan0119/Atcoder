@@ -67,57 +67,25 @@ class UnionFind {
 };
 /* ---------------------------------------------------*/
 
-
-//これはC問題です。
 int main() {
-  int N;
-  int M;
-  cin >> N >> M;
-  vector<vector<int>> Takahashi(N, vector<int>(0));
-
-  vector<vector<int>> Aokibase(N, vector<int>(0));
-  for (int i = 0; i < M; i++) {
-    int A, B;
-    cin >> A >> B;
-    A--;
-    B--;
-    Takahashi.at(A).push_back(B);
-    Takahashi.at(B).push_back(A);
+  cin.tie(0);
+  ios::sync_with_stdio(false);
+  int N, K;
+  cin >> N >> K;
+  priority_queue<int, vector<int>, greater<int>> P;
+  for (int i = 0; i < K; i++) {
+    int p;
+    cin >> p;
+    P.push(p);
   }
-  for (int i = 0; i < M; i++) {
-    int A, B;
-    cin >> A >> B;
-    A--;
-    B--;
-    Aokibase.at(A).push_back(B);
-    Aokibase.at(B).push_back(A);
+  cout << P.top() << "\n";
+  for (int i = K; i < N; i++) {
+    int p;
+    cin >> p;
+    if (p > P.top()) {
+      P.pop();
+      P.push(p);
+    }
+    cout << P.top() << "\n";
   }
-  for (int i = 0; i < N; i++) {
-    sort(Takahashi.at(i).begin(), Takahashi.at(i).end());  //中身ソートしておく
-  }
-  vector<int> base(N);
-  for (int i = 0; i < N; i++) {
-    base[i] = i;
-  }
-  do {
-    for (int i = 0; i < N; i++) {
-      cerr << base[i];
-    }
-    cerr << endl;
-    vector<vector<int>> Aoki(N, vector<int>(0));
-    for (int j = 0; j < N; j++) {
-      Aoki.at(base[j]) = Aokibase.at(j);  //まず、インデックスを入れ替えて挿入
-    }
-    for (int j = 0; j < N; j++) {
-      for (int k = 0; k < Aoki.at(j).size(); k++) {
-        Aoki.at(j).at(k) = base[Aoki.at(j).at(k)];  //それぞれの中身を変換
-      }
-      sort(Aoki.at(j).begin(), Aoki.at(j).end());  //中身をソートする
-    }
-    if (Aoki == Takahashi) {
-      cout << "Yes" << endl;
-      return 0;
-    }
-  } while (next_permutation(base.begin(), base.end()));
-  cout << "No" << endl;
 }
