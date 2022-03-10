@@ -24,37 +24,33 @@ bool chmax(T& a, const T& b) {
 typedef long long ll;
 /* ---------------------------------------------------*/
 
+const ll N = (ll)pow(2, 20);
+
 int main() {
-  ll N = pow(2, 20);
-  set<ll> A;
-  vector<pair<ll, ll>> B;
-  int Q;
-  cin >> Q;
-  vector<ll> x(Q), t(Q);
-  for (int i = 0; i < Q; i++) {
-    cin >> t[i] >> x[i];
-  }
-  for (int i = 0; i < Q; i++) {
-    if (t[i] == 1) {
-      ll h = x[i];
-      ll modN = h % N;
-      while (A.find(modN) != A.end()) {
-        h++;
-        modN = h % N;
-      }
-      A.insert(modN);
-      B.push_back({modN, x[i]});
-    }
-    if (t[i] == 2) {
-      ll modN = x[i] %N;
-      if (A.find(modN) != A.end()) {
-        for (ll j = 0; j < (int)B.size(); j++) {
-          if (B[j].first == modN) {
-            cout << B[j].second << endl;
-          }
+  ll Q;
+  scanf("%lld", &Q);
+  vector<ll> M(N);
+  vector<bool> B(N, false);
+  for (ll i = 0; i < Q; i++) {
+    ll t, x;
+    scanf("%lld%lld", &t, &x);
+    if (t == 1) {
+      ll h = x;
+      while (true) {
+        ll hmodn = h % N;
+        if (!B[hmodn]) {
+          M[hmodn] = x;
+          B[hmodn] = true;
+          break;
         }
+        ++h;
+      }
+    } else {
+      ll hmodn = x % N;
+      if (!B[hmodn]) {
+        printf("-1\n");
       } else {
-        cout << -1 << endl;
+        printf("%lld\n", M[hmodn]);
       }
     }
   }

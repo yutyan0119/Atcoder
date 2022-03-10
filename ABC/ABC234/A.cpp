@@ -24,14 +24,10 @@ bool chmax(T& a, const T& b) {
 typedef long long ll;
 /* ---------------------------------------------------*/
 
+int solve(int x) { return x * x + 2 * x + 3; }
+
 int main() {
-  int A, B, C, X;
-  cin >> A >> B >> C >> X;
-  if (X <= A) {
-    printf("%d\n", 1);
-  } else if (A < X && X <= B) {
-    printf("%.10f\n", (float)C / (float)(B - A));
-  } else {
-    printf("0\n");
-  }
+  int t;
+  cin >> t;
+  cout << solve(solve(solve(t) + t) + solve(solve(t))) << endl;
 }
