@@ -4,7 +4,7 @@ using namespace std;
 template <typename T>
 bool chmin(T& a, const T& b) {
   if (a > b) {
-    a = b;  // aをbで更新
+    a = b;
     return true;
   }
   return false;
@@ -13,7 +13,7 @@ bool chmin(T& a, const T& b) {
 template <typename T>
 bool chmax(T& a, const T& b) {
   if (a < b) {
-    a = b;  // aをbで更新
+    a = b;
     return true;
   }
   return false;
@@ -55,4 +55,9 @@ struct UnionFind {
 
 /* ---------------------------------------------------*/
 
-int main() {}
+int main() {
+  int N;
+  cin >> N;
+  cout << "EEIC" << N + 2 << endl;
+  return 0;
+}
