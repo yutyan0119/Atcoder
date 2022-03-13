@@ -21,20 +21,35 @@ bool chmax(T& a, const T& b) {
 
 #define rep(i1, s, e) for (int i1 = s; i1 < e; i1++)
 
+typedef long long ll;
+
 /* ---------------------------------------------------*/
 
 int main() {
   int N;
   cin >> N;
-  set<vector<int>> S;
+  vector<ll> A(N);
+  vector<ll> B(N);
+  ll ans1 = 0;
+  ll ans2 = 0;
   for (int i = 0; i < N; i++) {
-    int L;
-    cin >> L;
-    vector<int> a(L);
-    for (int j = 0; j < L; j++) {
-      cin >> a[j];
-    }
-    S.insert(a);
+    cin >> A[i];
   }
-  cout << S.size() << endl;
+  for (int i = 0; i < N; i++) {
+    cin >> B[i];
+  }
+  for (int i = 0; i < N; i++) {
+    if (A[i] == B[i]) {
+      ans1++;
+    }
+  }
+  for (int i = 0; i < N; i++) {
+    for (int j = 0; j < N; j++) {
+      if (i == j) continue;
+      if (A[i] == B[j]) {
+        ans2++;
+      }
+    }
+  }
+  cout << ans1 << "\n" << ans2 << "\n";
 }

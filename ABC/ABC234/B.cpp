@@ -25,17 +25,29 @@ typedef long long ll;
 
 /* ---------------------------------------------------*/
 
+double length(pair<int, int> p1, pair<int, int> p2) {
+  int x1 = p1.first;
+  int y1 = p1.second;
+  int x2 = p2.first;
+  int y2 = p2.second;
+  ll len2 = (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
+  return sqrt(len2);
+}
+
 int main() {
-  string S;
-  cin >> S;
-  int N = S.size();
-  vector<char> s(N);
-  for (int i = 0; i < N; i++) {
-    s[i] = S.at(i);
+  ll N;
+  cin >> N;
+  vector<pair<int, int>> p(N);
+  for (ll i = 0; i < N; i++) {
+    int x, y;
+    cin >> x >> y;
+    p[i] = {x, y};
   }
-  sort(s.begin(), s.end());
-  for (int i = 0; i < N; i++) {
-    cout << s[i];
+  double ans = 0;
+  for (ll i = 0; i < N; i++) {
+    for (ll j = i + 1; j < N; j++) {
+      chmax(ans, length(p[i], p[j]));
+    }
   }
-  cout << endl;
+  printf("%.8f\n", ans);
 }

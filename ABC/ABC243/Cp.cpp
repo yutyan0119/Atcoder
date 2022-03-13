@@ -24,25 +24,29 @@ typedef long long ll;
 
 /* ---------------------------------------------------*/
 
-const ll mod = 998244353;
-
 int main() {
-  ll K;
-  cin >> K;
-  vector<char> ans;
-  bool exist = false;
-  for (ll i = 0; i <= 63; i++) {
-    if (K & 1LL << (63 - i)) {
-      ans.push_back('2');
-      exist = true;
-    } else if (exist) {
-      ans.push_back('0');
-    } else {
-      continue;
+  string S;
+  cin >> S;
+  int N = (int)S.size();
+  bool can = true;
+  bool acan = true;
+  int j = 0;
+  for (int i = 0; i < N; i++) {
+    if (S.at(N - 1 - i) != 'a') {
+      acan = false;
     }
+    if (S.at(j) != S.at(N - 1 - i)) {
+      if (S.at(N - 1 - i) == 'a' && acan) {
+        continue;
+      }
+      can = false;
+      break;
+    }
+    j++;
   }
-  for (ll i = 0; i < ans.size(); i++) {
-    cout << ans[i];
+  if (can) {
+    cout << "Yes" << endl;
+  } else {
+    cout << "No" << endl;
   }
-  cout << "\n";
 }

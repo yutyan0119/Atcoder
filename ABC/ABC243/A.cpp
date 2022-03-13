@@ -20,29 +20,24 @@ bool chmax(T& a, const T& b) {
 }
 
 #define rep(i, s, e) for (int i = s; i < e; i++)
-typedef long long ll;
 
+typedef long long ll;
 /* ---------------------------------------------------*/
 
-const ll mod = 998244353;
-
 int main() {
-  ll K;
-  cin >> K;
-  vector<char> ans;
-  bool exist = false;
-  for (ll i = 0; i <= 63; i++) {
-    if (K & 1LL << (63 - i)) {
-      ans.push_back('2');
-      exist = true;
-    } else if (exist) {
-      ans.push_back('0');
-    } else {
-      continue;
+  int V, A, B, C;
+  cin >> V >> A >> B >> C;
+  vector<int> use = {A, B, C};
+  vector<char> name = {'F', 'M', 'T'};
+  bool con = true;
+  while (con) {
+    for (int i = 0; i < 3; i++) {
+      V -= use[i];
+      if (V < 0) {
+        cout << name[i] << endl;
+        con = false;
+        break;
+      }
     }
   }
-  for (ll i = 0; i < ans.size(); i++) {
-    cout << ans[i];
-  }
-  cout << "\n";
 }
