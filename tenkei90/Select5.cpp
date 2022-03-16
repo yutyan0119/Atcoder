@@ -55,13 +55,63 @@ struct UnionFind {
 
 /* ---------------------------------------------------*/
 
-int main() {
-  ll N, P, Q;
-  cin >> N >> P >> Q;
-  vector<ll> amari(P, 0);
-  for (ll i = 0; i < N; i++) {
-    ll A;
-    cin >> A;
-    amari[A % P]++;
+ll ans = 0;
+vector<ll> num;
+ll N, P, Q;
+
+void dfs(vector<ll> a, ll index) {
+  num.push_back(a[index]);
+  if (num.size() == 5) {
+    ll tmp = 1;
+    for (auto x : num) {
+      tmp *= x;
+      tmp %= P;
+    }
+    if (tmp == Q) {
+      ans++;
+    }
+    return;
+  } else {
+    int size = num.size();
+    for (int i = index + 1; i <= N - (5 - size); i++) {
+      dfs(a, i);
+      num.pop_back();
+    }
   }
+}
+
+int main() {
+  cin >> N >> P >> Q;
+  vector<ll> a(N);
+  for (ll i = 0; i < N; i++) {
+    cin >> a[i];
+  }
+  // for (ll i = 0; i <= N - 5; i++) {
+  //   dfs(a, i);
+  //   num.pop_back();
+  // }
+  for (ll i = 0; i < N; i++) {
+    for (ll j = i + 1; j < N; j++) {
+      for (ll k = j + 1; k < N; k++) {
+        for (ll l = k + 1; l < N; l++) {
+          for (ll m = l + 1; m < N; m++) {
+            ll tmp = 1;
+            tmp *= a[i];
+            tmp %= P;
+            tmp *= a[j];
+            tmp %= P;
+            tmp *= a[k];
+            tmp %= P;
+            tmp *= a[l];
+            tmp %= P;
+            tmp *= a[m];
+            tmp %= P;
+            if (tmp % P == Q) ans++;
+          }
+        }
+      }
+    }
+  }
+
+  cout << ans << endl;
 }
